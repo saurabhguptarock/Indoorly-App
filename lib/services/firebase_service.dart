@@ -43,6 +43,52 @@ Stream<User> streamUser(String uid) {
       .map((snap) => User.fromMap(snap.data));
 }
 
+Stream<List<Product>> streamProducts(String uid) {
+  return _firestore
+      .collection('users')
+      .document(uid)
+      .collection('cart')
+      .snapshots()
+      .map((list) =>
+          list.documents.map((data) => Product.fromFirestore(data)).toList());
+}
+
+void addProduct(String uid, Product product) async {
+  DocumentReference doc = await _firestore
+      .collection('users')
+      .document(uid)
+      .collection('cart')
+      .add({
+    'amount': product.amount,
+    'price': product.price,
+    'name': product.name,
+    'quantity': 1,
+    'id': '',
+  });
+  doc.updateData({'id': doc.documentID});
+}
+
+void updateQuantity(String uid, String docId, int val, int price) {
+  _firestore
+      .collection('users')
+      .document(uid)
+      .collection('cart')
+      .document(docId)
+      .updateData({
+    'quantity': FieldValue.increment(val),
+    'amount': FieldValue.increment(val * price)
+  });
+}
+
+void deleteProduct(String uid, String docId) {
+  _firestore
+      .collection('users')
+      .document(uid)
+      .collection('cart')
+      .document(docId)
+      .delete();
+}
+
 void signOut() {
   _auth.signOut();
 }

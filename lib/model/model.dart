@@ -1,3 +1,5 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
+
 class User {
   final String uid;
   final String email;
@@ -22,17 +24,20 @@ class User {
 
 class Product {
   final String name;
-  final String price;
-  final String amount;
-  final String quantity;
+  final int price;
+  final int amount;
+  final int quantity;
+  final String id;
 
-  Product({this.name, this.price, this.amount, this.quantity});
-  factory Product.fromMap(Map data) {
+  Product({this.name, this.price, this.amount, this.quantity, this.id});
+  factory Product.fromFirestore(DocumentSnapshot doc) {
+    Map data = doc.data;
     return Product(
       price: data['price'] ?? '',
       name: data['name'] ?? '',
       amount: data['amount'] ?? '',
       quantity: data['quantity'] ?? '',
+      id: data['id'] ?? '',
     );
   }
 }

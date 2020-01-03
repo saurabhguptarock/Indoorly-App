@@ -2,19 +2,21 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:indoorly/model/model.dart';
 import 'package:indoorly/shared/shared_ui.dart';
+import 'package:provider/provider.dart';
+import 'package:indoorly/services/firebase_service.dart' as firebaseService;
 
 class CartPage extends StatefulWidget {
+  final String uid;
+
+  const CartPage({Key key, this.uid}) : super(key: key);
   @override
   _CartPageState createState() => _CartPageState();
 }
 
-List<Product> products = [
-  Product(amount: '20', name: 'Lays', price: '20', quantity: '1')
-];
-
 class _CartPageState extends State<CartPage> {
   @override
   Widget build(BuildContext context) {
+    List<Product> products = Provider.of<List<Product>>(context);
     return Scaffold(
       appBar: AppBar(
         title: Text('Cart', style: GoogleFonts.lato(fontSize: 25)),
@@ -29,7 +31,7 @@ class _CartPageState extends State<CartPage> {
                   itemBuilder: (ctx, i) => Column(
                     children: <Widget>[
                       Padding(padding: EdgeInsets.only(top: 10)),
-                      cartItemTiles(products[i])
+                      cartItemTiles(widget.uid, products[i])
                     ],
                   ),
                 )
@@ -45,7 +47,7 @@ class _CartPageState extends State<CartPage> {
     );
   }
 
-  Widget cartItemTiles(Product product) {
+  Widget cartItemTiles(String uid, Product product) {
     return Card(
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
       elevation: 5,
@@ -69,7 +71,7 @@ class _CartPageState extends State<CartPage> {
               flex: 8,
               child: Column(
                 children: <Widget>[
-                  Padding(padding: EdgeInsets.only(top: 10)),
+                  Padding(padding: EdgeInsets.only(top: 3)),
                   Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: <Widget>[
@@ -91,7 +93,9 @@ class _CartPageState extends State<CartPage> {
                               color: Colors.white,
                               size: 13,
                             ),
-                            onTap: () {},
+                            onTap: () {
+                              firebaseService.deleteProduct(uid, product.id);
+                            },
                           ),
                         ),
                       )
@@ -114,12 +118,16 @@ class _CartPageState extends State<CartPage> {
                                   color: Colors.white,
                                   size: 15,
                                 ),
-                                onTap: () {},
+                                onTap: () {
+                                  if (product.quantity != 0)
+                                    firebaseService.updateQuantity(
+                                        uid, product.id, -1, product.price);
+                                },
                               ),
                             ),
                           ),
                           Text(
-                            product.quantity,
+                            product.quantity.toString(),
                             style: GoogleFonts.lato(
                               fontWeight: FontWeight.bold,
                               fontSize: 22,
@@ -136,7 +144,10 @@ class _CartPageState extends State<CartPage> {
                                   color: Colors.white,
                                   size: 15,
                                 ),
-                                onTap: () {},
+                                onTap: () {
+                                  firebaseService.updateQuantity(
+                                      uid, product.id, 1, product.price);
+                                },
                               ),
                             ),
                           ),
@@ -145,7 +156,7 @@ class _CartPageState extends State<CartPage> {
                       Padding(
                         padding: const EdgeInsets.only(right: 20),
                         child: Text(
-                          'Rs. ' + product.amount,
+                          'Rs. ' + product.amount.toString(),
                           style: GoogleFonts.lato(
                             fontWeight: FontWeight.bold,
                             fontSize: 18,

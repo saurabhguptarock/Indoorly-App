@@ -18,6 +18,7 @@ class MyApp extends StatelessWidget {
         ),
       ],
       child: MaterialApp(
+        debugShowCheckedModeBanner: false,
         title: 'Indoorly',
         theme: ThemeData(
           primarySwatch: Colors.blue,
@@ -41,9 +42,12 @@ class _MyHomePageState extends State<MyHomePage> {
       return StreamProvider<User>.value(
         value: firebaseService.streamUser(user.uid),
         initialData: User.fromMap({}),
-        child: HomePage(),
+        child: StreamProvider<List<Product>>.value(
+            value: firebaseService.streamProducts(user.uid),
+            initialData: [Product(name: '', price: 0, quantity: 0, amount: 0)],
+            child: HomePage()),
       );
     } else
-      return HomePage();
+      return LoginPage();
   }
 }

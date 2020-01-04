@@ -70,11 +70,11 @@ class _HomePageState extends State<HomePage>
         height: MediaQuery.of(context).size.height,
         child: Stack(
           children: <Widget>[
-            // UnityWidget(
-            // onUnityViewCreated: onUnityCreated,
-            // isARScene: true,
-            // onUnityMessage: onUnityMessage,
-            // ),
+            UnityWidget(
+              onUnityViewCreated: onUnityCreated,
+              isARScene: true,
+              onUnityMessage: onUnityMessage,
+            ),
             Positioned(
               top: MediaQuery.of(context).padding.top + 20,
               right: -60,

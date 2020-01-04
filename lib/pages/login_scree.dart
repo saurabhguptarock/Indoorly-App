@@ -35,10 +35,10 @@ class _LoginPageState extends State<LoginPage> {
             child: Row(
               mainAxisAlignment: MainAxisAlignment.center,
               children: <Widget>[
-                Image.asset('assets/icons/icon.png'),
+                Image.asset('assets/icons/icon.webp'),
                 Padding(padding: EdgeInsets.only(left: 10)),
                 Text(
-                  'Soofty',
+                  'Indoorly',
                   style: GoogleFonts.lato(
                     fontSize: 35,
                     fontWeight: FontWeight.bold,

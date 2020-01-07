@@ -1,7 +1,7 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:indoorly/model/model.dart';
-import 'package:indoorly/pages/home_page.dart';
+import 'package:indoorly/pages/shop_page.dart';
 import 'package:indoorly/services/firebase_service.dart' as firebaseService;
 import 'package:indoorly/pages/login_scree.dart';
 import 'package:provider/provider.dart';
@@ -45,7 +45,7 @@ class _MyHomePageState extends State<MyHomePage> {
         child: StreamProvider<List<Product>>.value(
             value: firebaseService.streamProducts(user.uid),
             initialData: [Product(name: '', price: 0, quantity: 0, amount: 0)],
-            child: HomePage()),
+            child: ShopPage()),
       );
     } else
       return LoginPage();

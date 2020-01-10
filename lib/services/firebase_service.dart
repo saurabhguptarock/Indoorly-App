@@ -62,10 +62,21 @@ void addProduct(String uid, Product product) async {
     'amount': product.amount,
     'price': product.price,
     'name': product.name,
-    'quantity': 1,
+    'quantity': product.quantity,
     'id': '',
   });
   doc.updateData({'id': doc.documentID});
+}
+
+void deleteAllProducts(String uid) async {
+  QuerySnapshot query = await _firestore
+      .collection('users')
+      .document(uid)
+      .collection('cart')
+      .getDocuments();
+  query.documents.forEach((doc) {
+    doc.reference.delete();
+  });
 }
 
 void updateQuantity(String uid, String docId, int val, int price) {

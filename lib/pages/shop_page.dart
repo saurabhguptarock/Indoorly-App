@@ -1,3 +1,5 @@
+import 'dart:math';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_unity_widget/flutter_unity_widget.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
@@ -23,8 +25,7 @@ class _ShopPageState extends State<ShopPage> with TickerProviderStateMixin {
   RubberAnimationController _bottomController;
   bool _shouldShow = false;
   Animation<Offset> _offsetAnimation;
-  Product _selectedProduct =
-      Product(name: 'Lays', amount: 20, id: '', price: 20, quantity: 1);
+  Product _selectedProduct;
   int _selectedProductQuantity = 1;
 
   void setRotationSpeed(String speed) {
@@ -86,11 +87,11 @@ class _ShopPageState extends State<ShopPage> with TickerProviderStateMixin {
           height: MediaQuery.of(context).size.height,
           child: Stack(
             children: <Widget>[
-              UnityWidget(
-                onUnityViewCreated: onUnityCreated,
-                isARScene: true,
-                onUnityMessage: onUnityMessage,
-              ),
+              // UnityWidget(
+              //   onUnityViewCreated: onUnityCreated,
+              //   isARScene: true,
+              //   onUnityMessage: onUnityMessage,
+              // ),
               Positioned(
                 top: MediaQuery.of(context).padding.top + 20,
                 right: -60,
@@ -177,7 +178,53 @@ class _ShopPageState extends State<ShopPage> with TickerProviderStateMixin {
                                 fontSize: 30,
                                 textStyle: TextStyle(color: Colors.white))),
                         onPressed: () {
+                          Product prod;
+                          int no = Random().nextInt(5);
+                          switch (no) {
+                            case 0:
+                              prod = Product(
+                                  name: 'Lays',
+                                  id: '',
+                                  amount: 20,
+                                  price: 20,
+                                  quantity: 1);
+                              break;
+                            case 1:
+                              prod = Product(
+                                  name: 'Biscuits',
+                                  id: '',
+                                  amount: 10,
+                                  price: 10,
+                                  quantity: 1);
+                              break;
+                            case 2:
+                              prod = Product(
+                                  name: 'Flour',
+                                  id: '',
+                                  amount: 500,
+                                  price: 500,
+                                  quantity: 1);
+                              break;
+                            case 3:
+                              prod = Product(
+                                  name: 'Juice',
+                                  id: '',
+                                  amount: 100,
+                                  price: 100,
+                                  quantity: 1);
+                              break;
+                            case 4:
+                              prod = Product(
+                                  name: 'Maggi',
+                                  id: '',
+                                  amount: 10,
+                                  price: 10,
+                                  quantity: 1);
+                              break;
+                            default:
+                          }
                           setState(() {
+                            _selectedProduct = prod;
                             _shouldShow = true;
                           });
                         }),
@@ -188,7 +235,7 @@ class _ShopPageState extends State<ShopPage> with TickerProviderStateMixin {
         ),
         upperLayer: _shouldShow
             ? Container(
-                height: MediaQuery.of(context).size.height,
+                height: MediaQuery.of(context).size.height * 1.5,
                 child: Container(
                   decoration: BoxDecoration(
                     color: Colors.amber,
@@ -346,12 +393,14 @@ class _ShopPageState extends State<ShopPage> with TickerProviderStateMixin {
                                                   setState(() {
                                                     _shouldShow = false;
                                                   });
+                                                  int _amount =
+                                                      _selectedProductQuantity *
+                                                          _selectedProduct
+                                                              .price;
                                                   firebaseService.addProduct(
                                                       user.uid,
                                                       Product(
-                                                          amount:
-                                                              _selectedProduct
-                                                                  .amount,
+                                                          amount: _amount,
                                                           quantity:
                                                               _selectedProductQuantity,
                                                           name: _selectedProduct
@@ -397,6 +446,7 @@ class _ShopPageState extends State<ShopPage> with TickerProviderStateMixin {
                             child: Row(
                               children: <Widget>[
                                 Card(
+                                  elevation: 0,
                                   shape: RoundedRectangleBorder(
                                     borderRadius: BorderRadius.circular(15),
                                   ),
@@ -413,6 +463,7 @@ class _ShopPageState extends State<ShopPage> with TickerProviderStateMixin {
                                   ),
                                 ),
                                 Card(
+                                  elevation: 0,
                                   shape: RoundedRectangleBorder(
                                     borderRadius: BorderRadius.circular(15),
                                   ),
@@ -429,6 +480,7 @@ class _ShopPageState extends State<ShopPage> with TickerProviderStateMixin {
                                   ),
                                 ),
                                 Card(
+                                  elevation: 0,
                                   shape: RoundedRectangleBorder(
                                     borderRadius: BorderRadius.circular(15),
                                   ),
@@ -445,6 +497,7 @@ class _ShopPageState extends State<ShopPage> with TickerProviderStateMixin {
                                   ),
                                 ),
                                 Card(
+                                  elevation: 0,
                                   shape: RoundedRectangleBorder(
                                     borderRadius: BorderRadius.circular(15),
                                   ),
@@ -461,6 +514,7 @@ class _ShopPageState extends State<ShopPage> with TickerProviderStateMixin {
                                   ),
                                 ),
                                 Card(
+                                  elevation: 0,
                                   shape: RoundedRectangleBorder(
                                     borderRadius: BorderRadius.circular(15),
                                   ),
@@ -499,6 +553,7 @@ class _ShopPageState extends State<ShopPage> with TickerProviderStateMixin {
                             child: Row(
                               children: <Widget>[
                                 Card(
+                                  elevation: 0,
                                   shape: RoundedRectangleBorder(
                                     borderRadius: BorderRadius.circular(15),
                                   ),
@@ -515,6 +570,7 @@ class _ShopPageState extends State<ShopPage> with TickerProviderStateMixin {
                                   ),
                                 ),
                                 Card(
+                                  elevation: 0,
                                   shape: RoundedRectangleBorder(
                                     borderRadius: BorderRadius.circular(15),
                                   ),
@@ -531,6 +587,7 @@ class _ShopPageState extends State<ShopPage> with TickerProviderStateMixin {
                                   ),
                                 ),
                                 Card(
+                                  elevation: 0,
                                   shape: RoundedRectangleBorder(
                                     borderRadius: BorderRadius.circular(15),
                                   ),
@@ -547,6 +604,7 @@ class _ShopPageState extends State<ShopPage> with TickerProviderStateMixin {
                                   ),
                                 ),
                                 Card(
+                                  elevation: 0,
                                   shape: RoundedRectangleBorder(
                                     borderRadius: BorderRadius.circular(15),
                                   ),
@@ -563,6 +621,7 @@ class _ShopPageState extends State<ShopPage> with TickerProviderStateMixin {
                                   ),
                                 ),
                                 Card(
+                                  elevation: 0,
                                   shape: RoundedRectangleBorder(
                                     borderRadius: BorderRadius.circular(15),
                                   ),

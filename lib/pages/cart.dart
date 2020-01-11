@@ -172,7 +172,7 @@ class _CartPageState extends State<CartPage> {
                 child: Container(
                   padding: EdgeInsets.all(8),
                   child: Image.asset(
-                      'assets/images/${product.name.toLowerCase()}.jpg'),
+                      'assets/images/${product.name.toLowerCase()}.webp'),
                 ),
               ),
               Expanded(

@@ -275,7 +275,7 @@ class _ShopPageState extends State<ShopPage> with TickerProviderStateMixin {
                                 child: Container(
                                   padding: EdgeInsets.all(8),
                                   child: Image.asset(
-                                      'assets/images/${_selectedProduct.name.toLowerCase()}.jpg'),
+                                      'assets/images/${_selectedProduct.name.toLowerCase()}.webp'),
                                 ),
                               ),
                               Expanded(

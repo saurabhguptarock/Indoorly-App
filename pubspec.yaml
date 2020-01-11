@@ -14,13 +14,21 @@ dependencies:
   google_sign_in: ^4.0.7
   firebase_auth: ^0.15.1
   flare_flutter: ^1.8.3
-  # shared_preferences: ^0.5.4+8
+  firebase_crashlytics: ^0.1.2+4
+  toast: ^0.1.5
   google_fonts: ^0.1.1
   flutter_spinkit: ^4.1.0
   font_awesome_flutter: ^8.5.0
   provider: ^3.2.0
   rubber: ^0.4.0
-
+  flutter_blue: ^0.6.3+1
+  # !----------------! #
+  cached_network_image: ^2.0.0
+  smooth_star_rating: ^1.0.3
+  flutter_local_notifications: ^0.8.4+3
+  firebase_messaging: ^6.0.3
+  share: ^0.6.3+5
+  shared_preferences: ^0.5.4+8
   cupertino_icons: ^0.1.2
 
 dev_dependencies:

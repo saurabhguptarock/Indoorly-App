@@ -44,7 +44,7 @@ class _AskPlaceState extends State<AskPlace> {
             ),
             Column(
               children: <Widget>[
-                InkWell(
+                GestureDetector(
                   onTap: () => Navigator.of(context).pushReplacement(
                     MaterialPageRoute(
                       builder: (ctx) => StreamProvider<User>.value(
@@ -77,7 +77,7 @@ class _AskPlaceState extends State<AskPlace> {
             ),
             Column(
               children: <Widget>[
-                InkWell(
+                GestureDetector(
                   onTap: () => Navigator.of(context).pushReplacement(
                     MaterialPageRoute(
                       builder: (ctx) => StreamProvider<User>.value(

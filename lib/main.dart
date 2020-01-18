@@ -2,6 +2,7 @@ import 'dart:async';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_crashlytics/firebase_crashlytics.dart';
 import 'package:flutter/material.dart';
+import 'package:indoorly/gooey_edge/demo.dart';
 import 'package:indoorly/model/model.dart';
 import 'package:indoorly/pages/ask_place.dart';
 import 'package:indoorly/services/firebase_service.dart' as firebaseService;
@@ -53,7 +54,7 @@ class _MyHomePageState extends State<MyHomePage> {
         child: StreamProvider<List<Product>>.value(
             value: firebaseService.streamProducts(user.uid),
             initialData: [Product(name: '', price: 0, quantity: 0, amount: 0)],
-            child: AskPlace()),
+            child: GooeyEdgeDemo()),
       );
     } else
       return LoginPage();

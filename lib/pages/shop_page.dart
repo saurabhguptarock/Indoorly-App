@@ -739,6 +739,7 @@ class _ShopPageState extends State<ShopPage> with TickerProviderStateMixin {
                 width: MediaQuery.of(context).size.width,
                 decoration: BoxDecoration(
                   image: DecorationImage(
+                    fit: BoxFit.fill,
                     image: AssetImage('assets/maps/Shop.webp'),
                   ),
                 ),

@@ -28,7 +28,7 @@ class LoadingIndicator extends StatelessWidget {
             SizedBox(
               height: 60,
               width: 60,
-              child: FlareActor("assets/flare/Rotating Progress Indicator.flr",
+              child: FlareActor("assets/flare/Loading.flr",
                   alignment: Alignment.center,
                   fit: BoxFit.contain,
                   animation: "Loading"),

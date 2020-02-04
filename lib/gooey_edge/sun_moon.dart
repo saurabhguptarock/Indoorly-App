@@ -10,9 +10,9 @@ class SunAndMoon extends StatefulWidget {
       {Key key,
       this.isDragComplete = false,
       this.assetPaths = const [
-        'assets/images/Sun-Yellow.png',
-        'assets/images/Sun-Red.png',
-        'assets/images/Moon-Crescent.png'
+        // 'assets/images/Sun-Yellow.png',
+        // 'assets/images/Sun-Red.png',
+        // 'assets/images/Moon-Crescent.png'
       ],
       this.index})
       : super(key: key);
@@ -77,8 +77,8 @@ class _SunAndMoonState extends State<SunAndMoon>
         child: Transform.translate(
           offset: Offset(_rotationRadius * cos(radianAngle),
               _rotationRadius * sin(radianAngle)),
-          child: Image.asset(widget.assetPaths.elementAt(index),
-              width: 60, height: 60),
+          // child: Image.asset(widget.assetPaths.elementAt(index),
+          //     width: 60, height: 60),
         ),
       ),
     );

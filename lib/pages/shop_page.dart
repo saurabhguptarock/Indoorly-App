@@ -23,7 +23,7 @@ class _ShopPageState extends State<ShopPage> with TickerProviderStateMixin {
   static final GlobalKey<ScaffoldState> _scaffoldKey =
       GlobalKey<ScaffoldState>();
   UnityWidgetController _unityWidgetController;
-  bool _productFound = false;
+  bool _productFound = true;
   AnimationController _controller;
   RubberAnimationController _bottomController;
   bool _shouldShow = false;
@@ -47,6 +47,7 @@ class _ShopPageState extends State<ShopPage> with TickerProviderStateMixin {
   double _scale = 1;
   AnimationController _animationController;
   Animation<double> _animation;
+
   void setRotationSpeed(String speed) {
     _unityWidgetController.postMessage(
       'Cube',
@@ -65,26 +66,32 @@ class _ShopPageState extends State<ShopPage> with TickerProviderStateMixin {
 
   @override
   void initState() {
-    subscription = flutterBlue.scan().listen((scanResult) {
-      print(scanResult.device.id.id);
-      _scanedDevices.add(scanResult);
-      _allLocation.forEach((location) {
-        location.forEach((key, val) {
-          if (key == scanResult.device.id.id) {
-            setState(() {
-              _locationName = val;
-              _locationNotFound = false;
-              Toast.show('Location Found $_locationName', context,
-                  duration: Toast.LENGTH_LONG, gravity: Toast.BOTTOM);
-              zoomImage();
-              // setLocation(_locationName);
-            });
-            print('Location Found $_locationName');
-            stopScan();
-          }
-        });
+    Future.delayed(Duration(seconds: 2), () {
+      setState(() {
+        _locationNotFound = false;
       });
-    }, onDone: stopScan());
+      zoomImage();
+    });
+    // subscription = flutterBlue.scan().listen((scanResult) {
+    //   print(scanResult.device.id.id);
+    //   _scanedDevices.add(scanResult);
+    //   _allLocation.forEach((location) {
+    //     location.forEach((key, val) {
+    //       if (key == scanResult.device.id.id) {
+    //         setState(() {
+    //           _locationName = val;
+    //           _locationNotFound = false;
+    //           Toast.show('Location Found $_locationName', context,
+    //               duration: Toast.LENGTH_LONG, gravity: Toast.BOTTOM);
+    //           zoomImage();
+    //           // setLocation(_locationName);
+    //         });
+    //         print('Location Found $_locationName');
+    //         stopScan();
+    //       }
+    //     });
+    //   });
+    // }, onDone: stopScan());
     _animationController =
         AnimationController(vsync: this, duration: Duration(seconds: 1));
     _animation = Tween(begin: 1.0, end: 0.0).animate(_animationController);
@@ -104,8 +111,9 @@ class _ShopPageState extends State<ShopPage> with TickerProviderStateMixin {
       dismissable: true,
       duration: Duration(milliseconds: 200),
       lowerBoundValue: AnimationControllerValue(pixel: 200),
-      upperBoundValue: AnimationControllerValue(pixel: 450),
+      upperBoundValue: AnimationControllerValue(pixel: 480),
     );
+
     super.initState();
   }
 
@@ -128,7 +136,7 @@ class _ShopPageState extends State<ShopPage> with TickerProviderStateMixin {
         _scale += 0.01;
       });
     });
-    Future.delayed(Duration(seconds: 5), () {
+    Future.delayed(Duration(seconds: 3), () {
       _animationController.forward();
     });
   }
@@ -148,11 +156,11 @@ class _ShopPageState extends State<ShopPage> with TickerProviderStateMixin {
               height: MediaQuery.of(context).size.height,
               child: Stack(
                 children: <Widget>[
-                  // UnityWidget(
-                  //   onUnityViewCreated: onUnityCreated,
-                  //   isARScene: true,
-                  //   onUnityMessage: onUnityMessage,
-                  // ),
+                  UnityWidget(
+                    onUnityViewCreated: onUnityCreated,
+                    isARScene: true,
+                    onUnityMessage: onUnityMessage,
+                  ),
                   Positioned(
                     top: MediaQuery.of(context).padding.top + 20,
                     right: -60,
@@ -220,77 +228,77 @@ class _ShopPageState extends State<ShopPage> with TickerProviderStateMixin {
                       ),
                     ),
                   ),
-                  if (_productFound)
-                    Positioned(
-                      bottom: MediaQuery.of(context).padding.bottom + 50,
-                      right: 20,
-                      left: 20,
-                      child: Container(
-                        height: 50,
-                        decoration: BoxDecoration(
-                          color: Colors.pinkAccent,
-                          borderRadius: BorderRadius.circular(50),
-                        ),
-                        child: MaterialButton(
-                            shape: RoundedRectangleBorder(
-                                borderRadius: BorderRadius.circular(50)),
-                            child: Text('BUY NOW',
-                                style: GoogleFonts.lato(
-                                    fontSize: 30,
-                                    textStyle: TextStyle(color: Colors.white))),
-                            onPressed: () {
-                              Product prod;
-                              int no = Random().nextInt(5);
-                              switch (no) {
-                                case 0:
-                                  prod = Product(
-                                      name: 'Lays',
-                                      id: '',
-                                      amount: 20,
-                                      price: 20,
-                                      quantity: 1);
-                                  break;
-                                case 1:
-                                  prod = Product(
-                                      name: 'Biscuits',
-                                      id: '',
-                                      amount: 10,
-                                      price: 10,
-                                      quantity: 1);
-                                  break;
-                                case 2:
-                                  prod = Product(
-                                      name: 'Flour',
-                                      id: '',
-                                      amount: 500,
-                                      price: 500,
-                                      quantity: 1);
-                                  break;
-                                case 3:
-                                  prod = Product(
-                                      name: 'Juice',
-                                      id: '',
-                                      amount: 100,
-                                      price: 100,
-                                      quantity: 1);
-                                  break;
-                                case 4:
-                                  prod = Product(
-                                      name: 'Maggi',
-                                      id: '',
-                                      amount: 10,
-                                      price: 10,
-                                      quantity: 1);
-                                  break;
-                                default:
-                              }
-                              setState(() {
-                                _selectedProduct = prod;
-                                _shouldShow = true;
-                              });
-                            }),
+                  // if (_productFound)
+                  Positioned(
+                    bottom: MediaQuery.of(context).padding.bottom + 50,
+                    right: 20,
+                    left: 20,
+                    child: Container(
+                      height: 50,
+                      decoration: BoxDecoration(
+                        color: Colors.pinkAccent,
+                        borderRadius: BorderRadius.circular(50),
                       ),
+                      child: MaterialButton(
+                          shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(50)),
+                          child: Text('BUY NOW',
+                              style: GoogleFonts.lato(
+                                  fontSize: 30,
+                                  textStyle: TextStyle(color: Colors.white))),
+                          onPressed: () {
+                            Product prod;
+                            int no = Random().nextInt(5);
+                            switch (no) {
+                              case 0:
+                                prod = Product(
+                                    name: 'Lays',
+                                    id: '',
+                                    amount: 20,
+                                    price: 20,
+                                    quantity: 1);
+                                break;
+                              case 1:
+                                prod = Product(
+                                    name: 'Biscuits',
+                                    id: '',
+                                    amount: 10,
+                                    price: 10,
+                                    quantity: 1);
+                                break;
+                              case 2:
+                                prod = Product(
+                                    name: 'Flour',
+                                    id: '',
+                                    amount: 500,
+                                    price: 500,
+                                    quantity: 1);
+                                break;
+                              case 3:
+                                prod = Product(
+                                    name: 'Juice',
+                                    id: '',
+                                    amount: 100,
+                                    price: 100,
+                                    quantity: 1);
+                                break;
+                              case 4:
+                                prod = Product(
+                                    name: 'Maggi',
+                                    id: '',
+                                    amount: 10,
+                                    price: 10,
+                                    quantity: 1);
+                                break;
+                              default:
+                            }
+                            setState(() {
+                              _selectedProduct = prod;
+                              _shouldShow = true;
+                            });
+                          }),
                     ),
+                  ),
                 ],
               ),
             ),
@@ -527,8 +535,9 @@ class _ShopPageState extends State<ShopPage> with TickerProviderStateMixin {
                                           borderRadius:
                                               BorderRadius.circular(15),
                                           image: DecorationImage(
-                                            image: NetworkImage(
-                                                'https://firebasestorage.googleapis.com/v0/b/indoorly-2fc40.appspot.com/o/WhatsApp%20Image%202020-01-07%20at%2023.11.04.jpeg?alt=media&token=fc066638-dbba-44ab-b02f-2885819f313b'),
+                                            fit: BoxFit.cover,
+                                            image: AssetImage(
+                                                'assets/products/hat.webp'),
                                           ),
                                         ),
                                       ),
@@ -545,8 +554,8 @@ class _ShopPageState extends State<ShopPage> with TickerProviderStateMixin {
                                           borderRadius:
                                               BorderRadius.circular(15),
                                           image: DecorationImage(
-                                            image: NetworkImage(
-                                                'https://firebasestorage.googleapis.com/v0/b/indoorly-2fc40.appspot.com/o/WhatsApp%20Image%202020-01-07%20at%2022.52.34.jpeg?alt=media&token=29fd1527-64e8-446a-b160-df1662d54c63'),
+                                            image: AssetImage(
+                                                'assets/products/chocklate.webp'),
                                           ),
                                         ),
                                       ),
@@ -563,8 +572,9 @@ class _ShopPageState extends State<ShopPage> with TickerProviderStateMixin {
                                           borderRadius:
                                               BorderRadius.circular(15),
                                           image: DecorationImage(
-                                            image: NetworkImage(
-                                                'https://firebasestorage.googleapis.com/v0/b/indoorly-2fc40.appspot.com/o/WhatsApp%20Image%202020-01-07%20at%2022.59.18.jpeg?alt=media&token=c5f54f92-6469-4f3f-b609-69ca10de07d4'),
+                                            fit: BoxFit.cover,
+                                            image: AssetImage(
+                                                'assets/products/ice.webp'),
                                           ),
                                         ),
                                       ),
@@ -581,8 +591,9 @@ class _ShopPageState extends State<ShopPage> with TickerProviderStateMixin {
                                           borderRadius:
                                               BorderRadius.circular(15),
                                           image: DecorationImage(
-                                            image: NetworkImage(
-                                                'https://firebasestorage.googleapis.com/v0/b/indoorly-2fc40.appspot.com/o/WhatsApp%20Image%202020-01-07%20at%2022.59.19%20(1).jpeg?alt=media&token=d2adba9f-fa12-4eb1-8f91-906aaa74a6c3'),
+                                            fit: BoxFit.cover,
+                                            image: AssetImage(
+                                                'assets/products/phone.webp'),
                                           ),
                                         ),
                                       ),
@@ -599,8 +610,9 @@ class _ShopPageState extends State<ShopPage> with TickerProviderStateMixin {
                                           borderRadius:
                                               BorderRadius.circular(15),
                                           image: DecorationImage(
-                                            image: NetworkImage(
-                                                'https://firebasestorage.googleapis.com/v0/b/indoorly-2fc40.appspot.com/o/WhatsApp%20Image%202020-01-07%20at%2022.59.19.jpeg?alt=media&token=af18affe-5829-49e7-a9df-156fe046a7ab'),
+                                            fit: BoxFit.cover,
+                                            image: AssetImage(
+                                                'assets/products/color.webp'),
                                           ),
                                         ),
                                       ),
@@ -640,8 +652,9 @@ class _ShopPageState extends State<ShopPage> with TickerProviderStateMixin {
                                           borderRadius:
                                               BorderRadius.circular(15),
                                           image: DecorationImage(
-                                            image: NetworkImage(
-                                                'https://firebasestorage.googleapis.com/v0/b/indoorly-2fc40.appspot.com/o/WhatsApp%20Image%202020-01-07%20at%2022.59.20.jpeg?alt=media&token=8ceb7a6e-c9a7-404a-8c20-ea644a3acb17'),
+                                            fit: BoxFit.cover,
+                                            image: AssetImage(
+                                                'assets/products/skates.webp'),
                                           ),
                                         ),
                                       ),
@@ -658,8 +671,8 @@ class _ShopPageState extends State<ShopPage> with TickerProviderStateMixin {
                                           borderRadius:
                                               BorderRadius.circular(15),
                                           image: DecorationImage(
-                                            image: NetworkImage(
-                                                'https://firebasestorage.googleapis.com/v0/b/indoorly-2fc40.appspot.com/o/WhatsApp%20Image%202020-01-07%20at%2023.11.03%20(1).jpeg?alt=media&token=99248afc-cd65-403b-9a47-39c0108a24cf'),
+                                            image: AssetImage(
+                                                'assets/products/bottle.webp'),
                                           ),
                                         ),
                                       ),
@@ -676,8 +689,8 @@ class _ShopPageState extends State<ShopPage> with TickerProviderStateMixin {
                                           borderRadius:
                                               BorderRadius.circular(15),
                                           image: DecorationImage(
-                                            image: NetworkImage(
-                                                'https://firebasestorage.googleapis.com/v0/b/indoorly-2fc40.appspot.com/o/WhatsApp%20Image%202020-01-07%20at%2023.11.03.jpeg?alt=media&token=319dae9a-a655-411f-851c-1e86867895e3'),
+                                            image: AssetImage(
+                                                'assets/products/bat.webp'),
                                           ),
                                         ),
                                       ),
@@ -694,8 +707,8 @@ class _ShopPageState extends State<ShopPage> with TickerProviderStateMixin {
                                           borderRadius:
                                               BorderRadius.circular(15),
                                           image: DecorationImage(
-                                            image: NetworkImage(
-                                                'https://firebasestorage.googleapis.com/v0/b/indoorly-2fc40.appspot.com/o/WhatsApp%20Image%202020-01-07%20at%2023.11.04%20(1).jpeg?alt=media&token=45d6c425-0649-413a-bcd2-20e1a5e4835c'),
+                                            image: AssetImage(
+                                                'assets/products/jeans.webp'),
                                           ),
                                         ),
                                       ),
@@ -712,8 +725,9 @@ class _ShopPageState extends State<ShopPage> with TickerProviderStateMixin {
                                           borderRadius:
                                               BorderRadius.circular(20),
                                           image: DecorationImage(
-                                            image: NetworkImage(
-                                                'https://firebasestorage.googleapis.com/v0/b/indoorly-2fc40.appspot.com/o/WhatsApp%20Image%202020-01-07%20at%2022.59.18.jpeg?alt=media&token=c5f54f92-6469-4f3f-b609-69ca10de07d4'),
+                                            fit: BoxFit.cover,
+                                            image: AssetImage(
+                                                'assets/products/ice.webp'),
                                           ),
                                         ),
                                       ),
@@ -730,28 +744,28 @@ class _ShopPageState extends State<ShopPage> with TickerProviderStateMixin {
                 : Container(),
             animationController: _bottomController,
           ),
-          FadeTransition(
-            opacity: _animation,
-            child: Transform.scale(
-              scale: _scale,
-              child: Container(
-                height: MediaQuery.of(context).size.height,
-                width: MediaQuery.of(context).size.width,
-                decoration: BoxDecoration(
-                  image: DecorationImage(
-                    fit: BoxFit.fill,
-                    image: AssetImage('assets/maps/Shop.webp'),
-                  ),
-                ),
-              ),
-            ),
-          ),
-          if (_locationNotFound)
-            Center(
-              child: BackdropFilter(
-                  filter: ImageFilter.blur(sigmaX: 5, sigmaY: 5),
-                  child: LoadingIndicator()),
-            ),
+          // FadeTransition(
+          //   opacity: _animation,
+          //   child: Transform.scale(
+          //     scale: _scale,
+          //     child: Container(
+          //       height: MediaQuery.of(context).size.height,
+          //       width: MediaQuery.of(context).size.width,
+          //       decoration: BoxDecoration(
+          //         image: DecorationImage(
+          //           fit: BoxFit.fill,
+          //           image: AssetImage('assets/maps/Shop.webp'),
+          //         ),
+          //       ),
+          //     ),
+          //   ),
+          // ),
+          // if (_locationNotFound)
+          //   Center(
+          //     child: BackdropFilter(
+          //         filter: ImageFilter.blur(sigmaX: 5, sigmaY: 5),
+          //         child: LoadingIndicator()),
+          //   ),
         ],
       ),
     );

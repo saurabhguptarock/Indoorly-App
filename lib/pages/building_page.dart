@@ -52,26 +52,32 @@ class _BuildingPageState extends State<BuildingPage>
 
   @override
   void initState() {
-    subscription = flutterBlue.scan().listen((scanResult) {
-      print(scanResult.device.id.id);
-      _scanedDevices.add(scanResult);
-      _allLocation.forEach((location) {
-        location.forEach((key, val) {
-          if (key == scanResult.device.id.id) {
-            setState(() {
-              _locationName = val;
-              _locationNotFound = false;
-              Toast.show('Location Found $_locationName', context,
-                  duration: Toast.LENGTH_LONG, gravity: Toast.BOTTOM);
-              zoomImage();
-              // setLocation(_locationName);
-            });
-            print('Location Found $_locationName');
-            stopScan();
-          }
-        });
+    Future.delayed(Duration(seconds: 2), () {
+      setState(() {
+        _locationNotFound = false;
       });
-    }, onDone: stopScan());
+      zoomImage();
+    });
+    // subscription = flutterBlue.scan().listen((scanResult) {
+    //   print(scanResult.device.id.id);
+    //   _scanedDevices.add(scanResult);
+    //   _allLocation.forEach((location) {
+    //     location.forEach((key, val) {
+    //       if (key == scanResult.device.id.id) {
+    //         setState(() {
+    //           _locationName = val;
+    //           _locationNotFound = false;
+    //           Toast.show('Location Found $_locationName', context,
+    //               duration: Toast.LENGTH_LONG, gravity: Toast.BOTTOM);
+    //           zoomImage();
+    //           // setLocation(_locationName);
+    //         });
+    //         print('Location Found $_locationName');
+    //         stopScan();
+    //       }
+    //     });
+    //   });
+    // }, onDone: stopScan());
     _animationController =
         AnimationController(vsync: this, duration: Duration(seconds: 1));
     _animation = Tween(begin: 1.0, end: 0.0).animate(_animationController);
@@ -95,7 +101,7 @@ class _BuildingPageState extends State<BuildingPage>
         _scale += 0.01;
       });
     });
-    Future.delayed(Duration(seconds: 5), () {
+    Future.delayed(Duration(seconds: 3), () {
       _animationController.forward();
     });
   }
@@ -109,11 +115,11 @@ class _BuildingPageState extends State<BuildingPage>
         children: <Widget>[
           Stack(
             children: <Widget>[
-              // UnityWidget(
-              //   onUnityViewCreated: onUnityCreated,
-              //   isARScene: true,
-              //   onUnityMessage: onUnityMessage,
-              // ),
+              UnityWidget(
+                onUnityViewCreated: onUnityCreated,
+                isARScene: true,
+                onUnityMessage: onUnityMessage,
+              ),
               FadeTransition(
                 opacity: _animation,
                 child: Transform.scale(

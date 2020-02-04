@@ -1,7 +1,7 @@
 name: indoorly
 description: A new Flutter project.
 
-version: 9.2.7+35
+version: 10.1.1+42
 
 environment:
   sdk: ">=2.2.2 <3.0.0"

@@ -72,14 +72,18 @@ class _ContentCardState extends State<ContentCard> {
                   flex: 3,
                   child: Padding(
                     padding: const EdgeInsets.symmetric(horizontal: 20.0),
-                    child: widget.color == 'Red'
+                    child: widget.color == 'Red' || widget.color == 'Blue'
                         ? SizedBox(
-                            width: 100,
-                            height: 100,
-                            child: Image.asset(
-                              'assets/images/Illustration-${widget.color}.png',
-                              fit: BoxFit.contain,
-                              height: 100,
+                            // width: 100,
+                            // height: 100,
+                            child: CircleAvatar(
+                              backgroundColor: Colors.white,
+                              radius: 100,
+                              child: Image.asset(
+                                'assets/images/Illustration-${widget.color}.png',
+                                fit: BoxFit.contain,
+                                height: widget.color == 'Blue' ? 110 : 180,
+                              ),
                             ),
                           )
                         : Image.asset(
